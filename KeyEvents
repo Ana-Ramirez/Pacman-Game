@@ -1,0 +1,40 @@
+
+void keyPressed() {
+  if (keyCode == UP) {
+    pacman.movingUp = true;
+    pacman.facingDirection = "up";
+  }
+
+  if (keyCode == RIGHT) {
+    pacman.movingRight = true;
+    pacman.facingDirection = "right";
+  }
+
+  if (keyCode == LEFT) {
+    pacman.movingLeft = true;
+    pacman.facingDirection = "left";
+  }
+
+  if (keyCode == DOWN) {
+    pacman.movingDown = true;
+    pacman.facingDirection = "down";
+  }
+}
+
+void keyReleased() {
+  if (keyCode == UP) {
+    pacman.movingUp = false;
+  }
+
+  if (keyCode == RIGHT) {
+    pacman.movingRight = false;
+  }
+
+  if (keyCode == LEFT) {
+    pacman.movingLeft = false;
+  }
+
+  if (keyCode == DOWN) {
+    pacman.movingDown = false;
+  }
+}
