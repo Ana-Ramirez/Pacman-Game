@@ -1,22 +1,82 @@
-public class Pacman{
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+public class Pacman {
+
+  boolean movingUp;
+  boolean movingDown;
+  boolean movingLeft;
+  boolean movingRight;
+
+  String facingDirection = "right";
+
+  int pacmanY;
+  int pacmanX;
+  float diameter = boxSize * 0.8;
+
+  public Pacman(int pacmanY, int pacmanX) {
+    this.pacmanY = pacmanY;
+    this.pacmanX = pacmanX;
+  }
+
+  void move() {
+    if (movingUp) {
+      if (gameGrid[pacmanY-1][pacmanX] != 0) {
+        pacmanY--;
+      }
+    }
+    if (movingDown) {
+      if (gameGrid[pacmanY+1][pacmanX] != 0) {
+        pacmanY++;
+      }
+    }
+    if (movingRight) {
+      if (gameGrid[pacmanY][pacmanX+1] != 0) {
+        pacmanX++;
+      }
+    }
+    if (movingLeft) {
+      if (gameGrid[pacmanY][pacmanX-1] != 0) {
+        pacmanX--;
+      }
+    }
+  }
+
+  void display() {
+    this.move();
+    println("row: " + pacmanY + " colPos: " + pacmanX + " diameter: " + diameter);
+    fill(255, 255, 0);
+
+    pushMatrix();
+    if (facingDirection.equals("right")) {
+      pushMatrix();
+      rotate(0);
+      popMatrix();
+      print("right");
+    }
+
+    else if (facingDirection.equals("left")) { 
+      pushMatrix();
+      rotate(PI);
+      popMatrix();
+      print("left");
+    } 
+    
+    else if (facingDirection.equals("down")) { 
+      pushMatrix();
+      rotate(HALF_PI);
+      popMatrix();
+      print("down");
+    } 
+    
+    else if (facingDirection.equals("up")) { 
+      pushMatrix();
+      rotate( PI + HALF_PI );
+      popMatrix();
+      print("up");
+    }
+    //rotate(PI);
+    arc((pacman.pacmanX*boxSize)+(boxSize/2), (pacman.pacmanY*boxSize)+(boxSize/2), diameter, diameter, map((millis() % 300), 0, 300, 0, 0.5), map((millis() % 300), 0, 300, TWO_PI, 5.5) );
+    popMatrix();
+  }
 }
+
+
+//(pacman.pacmanX*boxSize)+(boxSize/2)
