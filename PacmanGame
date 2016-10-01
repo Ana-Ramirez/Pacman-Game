@@ -1,4 +1,6 @@
-int [][] gameGrid = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+int [][] gameGrid={
+
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
   {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
   {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1}, 
   {1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 1}, 
@@ -20,59 +22,54 @@ int [][] gameGrid = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
   {1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1}, 
   {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1}, 
   {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 
+};
+
+Pacman pacman;
+
+// Your grid is 23 x 23.
 int rows = gameGrid.length;
 int cols = gameGrid[0].length;
-int totalFood = 0;
-int pacmanX = 12;
-int pacmanY = 17;
-int boarderSize;
 
-//Objects
-Pacman pacman;
-Ghosts ghosts;
-
+public int boxSize;
 
 void setup() {
-  background(0);
+  frameRate(15);
+  boxSize = width/cols;
+  pacman = new Pacman(16, 11);
   size(600, 650);
-  boarderSize = width/cols;
-  for (int i=0; i<rows; i++) {
-    for (int j=0; j<cols; j++) {
-      if (gameGrid[i][j] == 2) {
-        totalFood++;
-      }
-    }
-  }
 }
 
 
 void draw() {
-  drawGameGrid();
+  noStroke();
+  background(0);
+  this.drawGrid();
+  pacman.display();
 }
 
 
-void drawGameGrid() {
-  background(0);
-  for (int i = 0; i<cols; i++) {
-    for (int j = 0; j<rows; j++) {
-      if (gameGrid[j][i] == 0) {
-        noStroke();
-        fill(0, 0, 255);
-        rect(i*boarderSize, j*boarderSize, boarderSize, boarderSize);
-      } else if (gameGrid[j][i] == 1) {
-        noStroke();
+void drawGrid() {
+  for (int row = 0; row<cols; row++) {
+    for (int col = 0; col<rows; col++) {
+
+      if (gameGrid[row][col] == 0) { //drawing blue walls
+        fill(0, 0, 255); 
+        rect(col*boxSize, row*boxSize, boxSize, boxSize);
+      } 
+      
+      else if (gameGrid[row][col] == 1) { //drawing path without 'food'
+        fill(0); 
+        rect(col*boxSize, row*boxSize, boxSize, boxSize);
+      } 
+      
+      else if (gameGrid[row][col] == 2) { //drawing 'food' inside these boxes
         fill(0);
-        rect((i*boarderSize), (j*boarderSize), boarderSize/2, boarderSize/2);
-      } else if (gameGrid[j][i] == 2) {
-        noStroke();
-        fill(255);
-        rect(i*boarderSize+boarderSize*0.4, j*boarderSize+boarderSize*0.4, boarderSize/6, boarderSize/6);
+        rect(col*boxSize, row*boxSize, boxSize, boxSize);
+        fill(255); 
+        rect(col*boxSize + (boxSize*0.4), row*boxSize + (boxSize*0.4), boxSize/4, boxSize/4); // white boxes are 4 pixels wide
       }
     }
   }
-  //noStroke();
-  //fill(255,120,0);
 }
-
