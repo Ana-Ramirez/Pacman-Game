@@ -33,11 +33,13 @@ int rows = gameGrid.length;
 int cols = gameGrid[0].length;
 
 public int boxSize;
+public static int startTime; //speed of munching animation
 
 void setup() {
   frameRate(15);
   boxSize = width/cols;
   pacman = new Pacman(16, 11);
+  startTime = millis();
   size(600, 650);
 }
 
