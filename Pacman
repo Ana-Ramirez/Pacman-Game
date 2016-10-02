@@ -5,11 +5,13 @@ public class Pacman {
   boolean movingLeft;
   boolean movingRight;
 
-  String facingDirection = "right";
+  String facingDirection = "left";
+  PImage pacmanImage = loadImage("sprites/pacman/pacmanMoving/left/left0.png");
 
   int pacmanY;
   int pacmanX;
   float diameter = boxSize * 0.8;
+  int numImage = 0; //counter to represent the munching animation
 
   public Pacman(int pacmanY, int pacmanX) {
     this.pacmanY = pacmanY;
@@ -44,39 +46,65 @@ public class Pacman {
     println("row: " + pacmanY + " colPos: " + pacmanX + " diameter: " + diameter);
     fill(255, 255, 0);
 
-    pushMatrix();
-    if (facingDirection.equals("right")) {
-      pushMatrix();
-      rotate(0);
-      popMatrix();
-      print("right");
-    }
 
+    if (facingDirection.equals("right")) {
+      int numFrames = 4;
+      if (millis() > startTime + 60) {
+        startTime = millis();
+        numImage = (numImage + 1)%numFrames;
+        pacmanImage = loadImage("sprites/pacman/pacmanMoving/right/right" + numImage + ".png");
+        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      } else {
+        pacmanImage = loadImage("sprites/pacman/pacmanMoving/right/right" + numImage + ".png");
+        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      }
+      print("right");
+    } 
+    
+    
     else if (facingDirection.equals("left")) { 
-      pushMatrix();
-      rotate(PI);
-      popMatrix();
+      int numFrames = 4;
+      if (millis() > startTime + 60) {
+        startTime = millis();
+        numImage = (numImage + 1)%numFrames;
+        pacmanImage = loadImage("sprites/pacman/pacmanMoving/left/left" + numImage + ".png");
+        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      } else {
+        pacmanImage = loadImage("sprites/pacman/pacmanMoving/left/left" + numImage + ".png");
+        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      }
       print("left");
     } 
     
+    
     else if (facingDirection.equals("down")) { 
-      pushMatrix();
-      rotate(HALF_PI);
-      popMatrix();
+      int numFrames = 4;
+      if (millis() > startTime + 60) {
+        startTime = millis();
+        numImage = (numImage + 1)%numFrames;
+        pacmanImage = loadImage("sprites/pacman/pacmanMoving/down/down" + numImage + ".png");
+        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      } else {
+        pacmanImage = loadImage("sprites/pacman/pacmanMoving/down/down" + numImage + ".png");
+        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      }
       print("down");
     } 
     
+    
     else if (facingDirection.equals("up")) { 
-      pushMatrix();
-      rotate( PI + HALF_PI );
-      popMatrix();
+      int numFrames = 4;
+      if (millis() > startTime + 60) {
+        startTime = millis();
+        numImage = (numImage + 1)%numFrames;
+        pacmanImage = loadImage("sprites/pacman/pacmanMoving/up/up" + numImage + ".png");
+        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      } else {
+        pacmanImage = loadImage("sprites/pacman/pacmanMoving/up/up" + numImage + ".png");
+        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      }
+      print("left");
       print("up");
     }
-    //rotate(PI);
-    arc((pacman.pacmanX*boxSize)+(boxSize/2), (pacman.pacmanY*boxSize)+(boxSize/2), diameter, diameter, map((millis() % 300), 0, 300, 0, 0.5), map((millis() % 300), 0, 300, TWO_PI, 5.5) );
-    popMatrix();
   }
 }
-
-
-//(pacman.pacmanX*boxSize)+(boxSize/2)
