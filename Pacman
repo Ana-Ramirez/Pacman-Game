@@ -6,12 +6,13 @@ public class Pacman {
   boolean movingRight;
 
   String facingDirection = "left";
-  PImage pacmanImage = loadImage("sprites/pacman/pacmanMoving/left/left0.png");
+  PImage pacmanImage = loadImage("images/pacman/pacmanMoving/left/left0.png");
 
   int pacmanY;
   int pacmanX;
   float diameter = boxSize * 0.8;
-  int numImage = 0; //counter to represent the munching animation
+  int imageNum = 0; //counter to represent the munching animation
+  int numImages = 4;
 
   public Pacman(int pacmanY, int pacmanX) {
     this.pacmanY = pacmanY;
@@ -43,68 +44,44 @@ public class Pacman {
 
   void display() {
     this.move();
-    println("row: " + pacmanY + " colPos: " + pacmanX + " diameter: " + diameter);
+    println("row: " + pacmanY + "           col: " + pacmanX);
     fill(255, 255, 0);
 
 
     if (facingDirection.equals("right")) {
-      int numFrames = 4;
-      if (millis() > startTime + 60) {
-        startTime = millis();
-        numImage = (numImage + 1)%numFrames;
-        pacmanImage = loadImage("sprites/pacman/pacmanMoving/right/right" + numImage + ".png");
-        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      } else {
-        pacmanImage = loadImage("sprites/pacman/pacmanMoving/right/right" + numImage + ".png");
-        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      }
-      print("right");
+      imageNum = (imageNum+1) % numImages;
+      pacmanImage = loadImage("images/pacman/pacmanMoving/right/right" + imageNum + ".png");
+      image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      println("right");
     } 
-    
     
     else if (facingDirection.equals("left")) { 
-      int numFrames = 4;
-      if (millis() > startTime + 60) {
-        startTime = millis();
-        numImage = (numImage + 1)%numFrames;
-        pacmanImage = loadImage("sprites/pacman/pacmanMoving/left/left" + numImage + ".png");
-        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      } else {
-        pacmanImage = loadImage("sprites/pacman/pacmanMoving/left/left" + numImage + ".png");
-        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      }
-      print("left");
+      imageNum = (imageNum+1) % numImages;
+      pacmanImage = loadImage("images/pacman/pacmanMoving/left/left" + imageNum + ".png");
+      image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      println("left");
     } 
-    
     
     else if (facingDirection.equals("down")) { 
-      int numFrames = 4;
-      if (millis() > startTime + 60) {
-        startTime = millis();
-        numImage = (numImage + 1)%numFrames;
-        pacmanImage = loadImage("sprites/pacman/pacmanMoving/down/down" + numImage + ".png");
-        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      } else {
-        pacmanImage = loadImage("sprites/pacman/pacmanMoving/down/down" + numImage + ".png");
-        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      }
-      print("down");
+      imageNum = (imageNum+1) % numImages;
+      pacmanImage = loadImage("images/pacman/pacmanMoving/down/down" + imageNum + ".png");
+      image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      println("down");
     } 
     
-    
     else if (facingDirection.equals("up")) { 
-      int numFrames = 4;
-      if (millis() > startTime + 60) {
-        startTime = millis();
-        numImage = (numImage + 1)%numFrames;
-        pacmanImage = loadImage("sprites/pacman/pacmanMoving/up/up" + numImage + ".png");
-        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      } else {
-        pacmanImage = loadImage("sprites/pacman/pacmanMoving/up/up" + numImage + ".png");
-        image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      }
-      print("left");
-      print("up");
+      imageNum = (imageNum+1) % numImages;
+      pacmanImage = loadImage("images/pacman/pacmanMoving/up/up" + imageNum + ".png");
+      image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      println("up");
     }
+
+
+    if (gameGrid[pacmanY][pacmanX] == 2) {
+      gameGrid[pacmanY][pacmanX] = 1;
+      score++;
+      println(score);
+    }
+    
   }
 }
