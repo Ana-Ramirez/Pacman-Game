@@ -28,19 +28,26 @@ int [][] gameGrid={
 
 Pacman pacman;
 
-// Your grid is 23 x 23.
+// My grid is 23 x 23.
 int rows = gameGrid.length;
 int cols = gameGrid[0].length;
 
 public int boxSize;
-public static int startTime; //speed of munching animation
+int totalFood = 0;
+int score = 0;
 
 void setup() {
   frameRate(15);
   boxSize = width/cols;
   pacman = new Pacman(16, 11);
-  startTime = millis();
   size(600, 650);
+  for(int i=0; i<rows; i++){
+    for(int j=0; j<cols; j++){
+      if(gameGrid[i][j] == 2){
+        totalFood++;
+      }
+    }
+  }
 }
 
 
@@ -53,8 +60,8 @@ void draw() {
 
 
 void drawGrid() {
-  for (int row = 0; row<cols; row++) {
-    for (int col = 0; col<rows; col++) {
+  for (int row = 0; row<rows; row++) {
+    for (int col = 0; col<cols; col++) {
 
       if (gameGrid[row][col] == 0) { //drawing blue walls
         fill(0, 0, 255); 
