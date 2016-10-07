@@ -27,6 +27,12 @@ int [][] gameGrid={
 };
 
 Pacman pacman;
+PFont pacmanFont;
+PFont normalFont;
+gameStatus status = gameStatus.PLAYINGGAME;
+enum gameStatus {
+  STARTMENU, PLAYINGGAME, GAMEWON, GAMEOVER
+}
 
 // My grid is 23 x 23.
 int rows = gameGrid.length;
@@ -37,13 +43,16 @@ int totalFood = 0;
 int score = 0;
 
 void setup() {
-  frameRate(15);
+  frameRate(10);
   boxSize = width/cols;
   pacman = new Pacman(16, 11);
+  pacmanFont = createFont("font/CRACKMAN.TTF", 36);
+  normalFont = createFont("font/8bit.ttf", 36);
+  textFont(pacmanFont);
   size(600, 650);
-  for(int i=0; i<rows; i++){
-    for(int j=0; j<cols; j++){
-      if(gameGrid[i][j] == 2){
+  for (int i=0; i<rows; i++) {
+    for (int j=0; j<cols; j++) {
+      if (gameGrid[i][j] == 2) {
         totalFood++;
       }
     }
@@ -52,10 +61,43 @@ void setup() {
 
 
 void draw() {
-  noStroke();
-  background(0);
-  this.drawGrid();
-  pacman.display();
+
+  switch(status) {
+
+  case STARTMENU:
+    println("STARTMENU");
+    break;
+
+  case PLAYINGGAME:
+    //if(status == gameStatus.PLAYINGGAME){
+    noStroke();
+    background(0);
+    this.drawGrid();
+    pacman.display();
+    this.drawPoints();
+    break;
+    //}
+
+  case GAMEWON:
+    //if(status == gameStatus.GAMEWON){
+    background(0);
+    textFont(pacmanFont);
+    textSize(80);
+    textAlign(CENTER);
+    fill(255, 255, 0);
+    text("You Won!", width/2, height/2.2);
+    textFont(normalFont);
+    textSize(40);
+    textAlign(CENTER);
+    fill(255);    
+    text("Score: " + score, (width/2), (height/2)+width/12);
+    break;
+    //}
+
+  case GAMEOVER:
+    println("GAMEOVER");
+    break;
+  }
 }
 
 
@@ -66,14 +108,10 @@ void drawGrid() {
       if (gameGrid[row][col] == 0) { //drawing blue walls
         fill(0, 0, 255); 
         rect(col*boxSize, row*boxSize, boxSize, boxSize);
-      } 
-      
-      else if (gameGrid[row][col] == 1) { //drawing path without 'food'
+      } else if (gameGrid[row][col] == 1) { //drawing path without 'food'
         fill(0); 
         rect(col*boxSize, row*boxSize, boxSize, boxSize);
-      } 
-      
-      else if (gameGrid[row][col] == 2) { //drawing 'food' inside these boxes
+      } else if (gameGrid[row][col] == 2) { //drawing 'food' inside these boxes
         fill(0);
         rect(col*boxSize, row*boxSize, boxSize, boxSize);
         fill(255); 
@@ -81,4 +119,11 @@ void drawGrid() {
       }
     }
   }
+}
+
+void drawPoints() {
+    fill(255);
+    text("Score: ", boxSize, height*0.96);
+    fill(255, 255, 0);
+    text(score, (boxSize*7)+(boxSize*0.5), height*0.96);
 }
