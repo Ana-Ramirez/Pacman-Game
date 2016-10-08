@@ -1,129 +1,83 @@
-int [][] gameGrid={
+public class Pacman {
 
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-  {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-  {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1}, 
-  {1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 1}, 
-  {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1}, 
-  {1, 0, 2, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 2, 0, 1}, 
-  {1, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 1}, 
-  {1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1}, 
-  {1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1}, 
-  {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
-  {1, 0, 1, 1, 1, 2, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 2, 1, 1, 1, 0, 1}, 
-  {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
-  {1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1}, 
-  {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
-  {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1}, 
-  {1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 1}, 
-  {1, 0, 2, 2, 0, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 0, 2, 2, 0, 1}, 
-  {1, 0, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, 1}, 
-  {1, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 1}, 
-  {1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1}, 
-  {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1}, 
-  {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+  boolean movingUp;
+  boolean movingDown;
+  boolean movingLeft;
+  boolean movingRight;
 
-};
+  String facingDirection = "left";
+  PImage pacmanImage = loadImage("images/pacman/pacmanMoving/left/left0.png");
 
-Pacman pacman;
-PFont pacmanFont;
-PFont normalFont;
-gameStatus status = gameStatus.PLAYINGGAME;
-enum gameStatus {
-  STARTMENU, PLAYINGGAME, GAMEWON, GAMEOVER
-}
+  int pacmanY;
+  int pacmanX;
+  float diameter = boxSize * 0.8;
+  int imageNum = 0; //counter to represent the munching animation
+  int numImages = 4;
 
-// My grid is 23 x 23.
-int rows = gameGrid.length;
-int cols = gameGrid[0].length;
+  public Pacman(int pacmanY, int pacmanX) {
+    this.pacmanY = pacmanY;
+    this.pacmanX = pacmanX;
+  }
 
-public int boxSize;
-int totalFood = 0;
-int score = 0;
-
-void setup() {
-  frameRate(10);
-  boxSize = width/cols;
-  pacman = new Pacman(16, 11);
-  pacmanFont = createFont("font/CRACKMAN.TTF", 36);
-  normalFont = createFont("font/8bit.ttf", 36);
-  textFont(pacmanFont);
-  size(600, 650);
-  for (int i=0; i<rows; i++) {
-    for (int j=0; j<cols; j++) {
-      if (gameGrid[i][j] == 2) {
-        totalFood++;
+  void move() {
+    if (movingUp) {
+      if (gameGrid[pacmanY-1][pacmanX] != 0) {
+        pacmanY--;
+      }
+    }
+    if (movingDown) {
+      if (gameGrid[pacmanY+1][pacmanX] != 0) {
+        pacmanY++;
+      }
+    }
+    if (movingRight) {
+      if (gameGrid[pacmanY][pacmanX+1] != 0) {
+        pacmanX++;
+      }
+    }
+    if (movingLeft) {
+      if (gameGrid[pacmanY][pacmanX-1] != 0) {
+        pacmanX--;
       }
     }
   }
-}
 
-
-void draw() {
-
-  switch(status) {
-
-  case STARTMENU:
-    println("STARTMENU");
-    break;
-
-  case PLAYINGGAME:
-    //if(status == gameStatus.PLAYINGGAME){
-    noStroke();
-    background(0);
-    this.drawGrid();
-    pacman.display();
-    this.drawPoints();
-    break;
-    //}
-
-  case GAMEWON:
-    //if(status == gameStatus.GAMEWON){
-    background(0);
-    textFont(pacmanFont);
-    textSize(80);
-    textAlign(CENTER);
+  void display() {
+    this.move();
+    println("row: " + pacmanY + "           col: " + pacmanX);
     fill(255, 255, 0);
-    text("You Won!", width/2, height/2.2);
-    textFont(normalFont);
-    textSize(40);
-    textAlign(CENTER);
-    fill(255);    
-    text("Score: " + score, (width/2), (height/2)+width/12);
-    break;
-    //}
-
-  case GAMEOVER:
-    println("GAMEOVER");
-    break;
-  }
-}
 
 
-void drawGrid() {
-  for (int row = 0; row<rows; row++) {
-    for (int col = 0; col<cols; col++) {
+    if (facingDirection.equals("right")) {
+      imageNum = (imageNum+1) % numImages;
+      pacmanImage = loadImage("images/pacman/pacmanMoving/right/right" + imageNum + ".png");
+      image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      println("right");
+    } else if (facingDirection.equals("left")) { 
+      imageNum = (imageNum+1) % numImages;
+      pacmanImage = loadImage("images/pacman/pacmanMoving/left/left" + imageNum + ".png");
+      image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      println("left");
+    } else if (facingDirection.equals("down")) { 
+      imageNum = (imageNum+1) % numImages;
+      pacmanImage = loadImage("images/pacman/pacmanMoving/down/down" + imageNum + ".png");
+      image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      println("down");
+    } else if (facingDirection.equals("up")) { 
+      imageNum = (imageNum+1) % numImages;
+      pacmanImage = loadImage("images/pacman/pacmanMoving/up/up" + imageNum + ".png");
+      image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
+      println("up");
+    }
 
-      if (gameGrid[row][col] == 0) { //drawing blue walls
-        fill(0, 0, 255); 
-        rect(col*boxSize, row*boxSize, boxSize, boxSize);
-      } else if (gameGrid[row][col] == 1) { //drawing path without 'food'
-        fill(0); 
-        rect(col*boxSize, row*boxSize, boxSize, boxSize);
-      } else if (gameGrid[row][col] == 2) { //drawing 'food' inside these boxes
-        fill(0);
-        rect(col*boxSize, row*boxSize, boxSize, boxSize);
-        fill(255); 
-        rect(col*boxSize + (boxSize*0.4), row*boxSize + (boxSize*0.4), boxSize/4, boxSize/4); // white boxes are 4 pixels wide
+
+    if (gameGrid[pacmanY][pacmanX] == 2) {
+      gameGrid[pacmanY][pacmanX] = 1;
+      score = score + 10;
+      println(score);
+      if (score/10 == totalFood) {
+        status = gameStatus.GAMEWON;
       }
     }
   }
-}
-
-void drawPoints() {
-    fill(255);
-    text("Score: ", boxSize, height*0.96);
-    fill(255, 255, 0);
-    text(score, (boxSize*7)+(boxSize*0.5), height*0.96);
 }
