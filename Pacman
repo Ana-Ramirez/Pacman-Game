@@ -53,17 +53,23 @@ public class Pacman {
       pacmanImage = loadImage("images/pacman/pacmanMoving/right/right" + imageNum + ".png");
       image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
       println("right");
-    } else if (facingDirection.equals("left")) { 
+    } 
+    
+    else if (facingDirection.equals("left")) { 
       imageNum = (imageNum+1) % numImages;
       pacmanImage = loadImage("images/pacman/pacmanMoving/left/left" + imageNum + ".png");
       image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
       println("left");
-    } else if (facingDirection.equals("down")) { 
+    } 
+    
+    else if (facingDirection.equals("down")) { 
       imageNum = (imageNum+1) % numImages;
       pacmanImage = loadImage("images/pacman/pacmanMoving/down/down" + imageNum + ".png");
       image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
       println("down");
-    } else if (facingDirection.equals("up")) { 
+    } 
+    
+    else if (facingDirection.equals("up")) { 
       imageNum = (imageNum+1) % numImages;
       pacmanImage = loadImage("images/pacman/pacmanMoving/up/up" + imageNum + ".png");
       image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
