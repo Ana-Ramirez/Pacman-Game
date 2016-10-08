@@ -1,5 +1,4 @@
 
-
 void keyPressed() {
   if (keyCode == UP) {
     pacman.movingUp = true;
@@ -20,6 +19,8 @@ void keyPressed() {
     pacman.movingDown = true;
     pacman.facingDirection = "down";
   }
+  
+  
 }
 
 void keyReleased() {
@@ -38,4 +39,35 @@ void keyReleased() {
   if (keyCode == DOWN) {
     pacman.movingDown = false;
   }
+}
+
+
+void mousePressed(){
+  if(status == gameStatus.GAMEWON){
+    if(mouseX >= width/3 && mouseX < (width/3)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40){
+      print("replay");
+      status = gameStatus.PLAYINGGAME;
+    }
+    if(mouseX >= (width/3)+(width/5.5) && mouseX < (width/3)+(width/5.5)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40){
+      print("quit");
+      exit();
+    }
+  }
+}
+
+void containsMouse(){
+  if(status == gameStatus.GAMEWON){
+    if(mouseX >= width/3 && mouseX < (width/3)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40){
+      menuButtonColour1 = color(150);
+    }
+    else if(mouseX >= (width/3)+(width/5.5) && mouseX < (width/3)+(width/5.5)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40){
+      menuButtonColour2 = color(150);
+    }
+    else{
+      menuButtonColour1 = color(255);
+      menuButtonColour2 = color(255);
+    }
+    drawWonGameButtons();
+  }
+    
 }
