@@ -68,12 +68,16 @@ int [][] gameGrid={
 
 
 Pacman pacman;
+Ghosts redGhost;
+Ghosts blueGhost;
+Ghosts pinkGhost;
+Ghosts orangeGhost;
 
 PFont pacmanFont;
 PFont normalFont;
 color menuButtonColour1 = color(255);
 color menuButtonColour2 = color(255);
-gameStatus status = gameStatus.GAMEWON;
+gameStatus status = gameStatus.PLAYINGGAME;
 enum gameStatus {
   STARTMENU, PLAYINGGAME, GAMEWON, GAMEOVER
 }
@@ -91,6 +95,11 @@ void setup() {
   frameRate(10);
   boxSize = width/cols;
   pacman = new Pacman(16, 11);
+  redGhost = new Ghosts(2, 5);
+  blueGhost = new Ghosts(18, 17);
+  pinkGhost = new Ghosts(20, 2);
+  orangeGhost = new Ghosts(4, 20);
+  
   pacmanFont = createFont("font/CRACKMAN.TTF", 36);
   normalFont = createFont("font/8bit.ttf", 36);
   textFont(pacmanFont);
@@ -121,6 +130,8 @@ void draw() {
     background(0);
     this.drawGrid();
     pacman.display();
+    redGhost.displayGhosts();
+    redGhost.moveGhosts();
     this.drawPoints();
     break;
 
