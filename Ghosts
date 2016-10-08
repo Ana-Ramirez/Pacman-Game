@@ -108,7 +108,7 @@ public class Ghosts {
   }
   
   void killPacman(){
-    if(gameGrid[redGhost.ghostY][redGhost.ghostX] == gameGrid[pacman.pacmanY][pacman.pacmanX] || gameGrid[blueGhost.ghostY][blueGhost.ghostX] == gameGrid[pacman.pacmanY][pacman.pacmanX] || gameGrid[pinkGhost.ghostY][pinkGhost.ghostX] == gameGrid[pacman.pacmanY][pacman.pacmanX] || gameGrid[orangeGhost.ghostY][orangeGhost.ghostX] == gameGrid[pacman.pacmanY][pacman.pacmanX]){
+    if((redGhost.ghostY == pacman.pacmanY && redGhost.ghostX == pacman.pacmanX) || (blueGhost.ghostY == pacman.pacmanY && blueGhost.ghostX == pacman.pacmanX) || (pinkGhost.ghostY == pacman.pacmanY && pinkGhost.ghostX == pacman.pacmanX) || (orangeGhost.ghostY == pacman.pacmanY && orangeGhost.ghostX == pacman.pacmanX)){
       println("GAMEOVER");
       status = gameStatus.GAMEOVER;
     }
