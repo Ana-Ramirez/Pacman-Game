@@ -106,4 +106,11 @@ public class Ghosts {
 
     }
   }
+  
+  void killPacman(){
+    if(gameGrid[redGhost.ghostY][redGhost.ghostX] == gameGrid[pacman.pacmanY][pacman.pacmanX] || gameGrid[blueGhost.ghostY][blueGhost.ghostX] == gameGrid[pacman.pacmanY][pacman.pacmanX] || gameGrid[pinkGhost.ghostY][pinkGhost.ghostX] == gameGrid[pacman.pacmanY][pacman.pacmanX] || gameGrid[orangeGhost.ghostY][orangeGhost.ghostX] == gameGrid[pacman.pacmanY][pacman.pacmanX]){
+      println("GAMEOVER");
+      status = gameStatus.GAMEOVER;
+    }
+  }
 }
