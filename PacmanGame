@@ -9,8 +9,8 @@ int [][] originalGameGrid={
   {1, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 1}, 
   {1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1}, 
   {1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1}, 
-  {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
-  {1, 0, 1, 1, 1, 2, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 2, 1, 1, 1, 0, 1}, 
+  {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
+  {1, 0, 1, 1, 1, 2, 1, 1, 0, 2, 2, 2, 2, 2, 0, 1, 1, 2, 1, 1, 1, 0, 1}, 
   {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
   {1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1}, 
   {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
@@ -43,8 +43,8 @@ int [][] gameGrid={
   {1, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 1}, 
   {1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1}, 
   {1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1}, 
-  {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
-  {1, 0, 1, 1, 1, 2, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 2, 1, 1, 1, 0, 1}, 
+  {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
+  {1, 0, 1, 1, 1, 2, 1, 1, 0, 2, 2, 2, 2, 2, 0, 1, 1, 2, 1, 1, 1, 0, 1}, 
   {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
   {1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1}, 
   {1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1}, 
@@ -90,6 +90,7 @@ public int boxSize;
 int winningScore = 0;
 int totalFood = 0;
 int score = 0;
+int finalScore = 0;
 
 void setup() {
   frameRate(10);
@@ -132,6 +133,7 @@ void draw() {
     pacman.display();
     redGhost.displayGhosts();
     redGhost.moveGhosts();
+    redGhost.killPacman();
     this.drawPoints();
     break;
 
@@ -141,7 +143,8 @@ void draw() {
     break;
 
   case GAMEOVER:
-    println("GAMEOVER");
+    drawGameOverMenu();
+    reInitialise();
     break;
   }
 }
@@ -152,7 +155,6 @@ void reInitialise() {
       gameGrid[row][col] = originalGameGrid[row][col];
     }
   }
-  //gameGrid = originalGameGrid;
   score = 0;
   pacman.pacmanX = 11;
   pacman.pacmanY = 16;
@@ -203,6 +205,34 @@ void drawWonGameMenu() {
 }
 
 void drawWonGameButtons() {
+  frameRate(60);
+  fill(menuButtonColour1);
+  rect(width/3, (height/2)+(height/7), 90, 40);
+  fill(menuButtonColour2);
+  rect((width/3)+(width/5.5), (height/2)+(height/7), 90, 40);
+  fill(0);
+  textSize(25);
+  textAlign(LEFT);
+  text("Replay", (width/3)+4, (height/2)+(height/7)+28);
+  text("Quit", (width/3)+(width/5.5)+17, (height/2)+(height/7)+28);
+}
+
+void drawGameOverMenu(){
+  background(0);
+  textFont(pacmanFont);
+  textSize(80);
+  textAlign(CENTER);
+  fill(255, 255, 0);
+  text("Game over!", width/2, height/2.2);
+  textFont(normalFont);
+  textSize(40);
+  textAlign(CENTER);
+  fill(255);    
+  text("Score: " + finalScore, (width/2), (height/2)+width/12);
+  containsMouse();
+}
+
+void drawGameOverButtons() {
   frameRate(60);
   fill(menuButtonColour1);
   rect(width/3, (height/2)+(height/7), 90, 40);
