@@ -44,7 +44,7 @@ public class Pacman {
 
   void display() {
     this.move();
-    println("row: " + pacmanY + "           col: " + pacmanX);
+    //println("row: " + pacmanY + "           col: " + pacmanX);
     fill(255, 255, 0);
 
 
@@ -80,6 +80,7 @@ public class Pacman {
     if (gameGrid[pacmanY][pacmanX] == 2) {
       gameGrid[pacmanY][pacmanX] = 1;
       score = score + 10;
+      finalScore = score;
       println(score);
       if (score/10 == totalFood) {
         status = gameStatus.GAMEWON;
