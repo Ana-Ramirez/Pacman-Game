@@ -1,16 +1,20 @@
 public class Pacman {
 
+  //booleans to set the direction pacman is moving in
   boolean movingUp;
   boolean movingDown;
   boolean movingLeft;
   boolean movingRight;
 
-  String facingDirection = "left";
-  PImage pacmanImage = loadImage("images/pacman/pacmanMoving/left/left0.png");
-
+  //pacmans position on the grid
   int pacmanY;
   int pacmanX;
-  float diameter = boxSize * 0.8;
+
+  //direction that pacman is facing
+  String facingDirection = "left";
+  
+  //variables needed in order to control pacman opening + closing its mouth
+  PImage pacmanImage = loadImage("images/pacman/left/left0.png");
   int imageNum = 0; //counter to represent the munching animation
   int numImages = 4;
 
@@ -19,6 +23,7 @@ public class Pacman {
     this.pacmanX = pacmanX;
   }
 
+  //making pacman move
   void move() {
     if (movingUp) {
       if (gameGrid[pacmanY-1][pacmanX] != 0) {
@@ -42,46 +47,47 @@ public class Pacman {
     }
   }
 
+  //drawing pacman
   void display() {
     this.move();
     //println("row: " + pacmanY + "           col: " + pacmanX);
     fill(255, 255, 0);
 
-
     if (facingDirection.equals("right")) {
       imageNum = (imageNum+1) % numImages;
-      pacmanImage = loadImage("images/pacman/pacmanMoving/right/right" + imageNum + ".png");
+      pacmanImage = loadImage("images/pacman/right/right" + imageNum + ".png");
       image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      println("right");
+      //println("right");
     } 
     
     else if (facingDirection.equals("left")) { 
       imageNum = (imageNum+1) % numImages;
-      pacmanImage = loadImage("images/pacman/pacmanMoving/left/left" + imageNum + ".png");
+      pacmanImage = loadImage("images/pacman/left/left" + imageNum + ".png");
       image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      println("left");
+      //println("left");
     } 
     
     else if (facingDirection.equals("down")) { 
       imageNum = (imageNum+1) % numImages;
-      pacmanImage = loadImage("images/pacman/pacmanMoving/down/down" + imageNum + ".png");
+      pacmanImage = loadImage("images/pacman/down/down" + imageNum + ".png");
       image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      println("down");
+      //println("down");
     } 
     
     else if (facingDirection.equals("up")) { 
       imageNum = (imageNum+1) % numImages;
-      pacmanImage = loadImage("images/pacman/pacmanMoving/up/up" + imageNum + ".png");
+      pacmanImage = loadImage("images/pacman/up/up" + imageNum + ".png");
       image(pacmanImage, (pacman.pacmanX*boxSize)+(boxSize/8), (pacman.pacmanY*boxSize)+(boxSize/8));
-      println("up");
+      //println("up");
     }
+  }
 
-
+  //calculates the players score
+  void calculateScore(){
     if (gameGrid[pacmanY][pacmanX] == 2) {
       gameGrid[pacmanY][pacmanX] = 1;
       score = score + 10;
       finalScore = score;
-      println(score);
       if (score/10 == totalFood) {
         status = gameStatus.GAMEWON;
       }
