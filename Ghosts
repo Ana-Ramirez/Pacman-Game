@@ -1,14 +1,16 @@
 public class Ghosts {
 
-  
+  //defining the direction each ghost is facing
   String redGhostDirection = "down";
   String blueGhostDirection = "up";
   String pinkGhostDirection = "right";
   String orangeGhostDirection = "left";
-  
+
+  //the ghosts positions in the grid
   int ghostY;
   int ghostX;
 
+  //loading the images for each ghost
   PImage redGhostImage = loadImage("images/ghosts/redGhostDown.png");
   PImage blueGhostImage = loadImage("images/ghosts/blueGhostUp.png");
   PImage pinkGhostImage = loadImage("images/ghosts/pinkGhostUp.png");
@@ -19,97 +21,93 @@ public class Ghosts {
     this.ghostX = ghostX;
   }
 
+  //drawing each ghost
   void displayGhosts() {
-    //this.moveGhosts();
     redGhostImage = loadImage("images/ghosts/redGhostDown.png");
     image(redGhostImage, (redGhost.ghostX*boxSize)+(boxSize/8), (redGhost.ghostY*boxSize)+(boxSize/8));
-    
+
     blueGhostImage = loadImage("images/ghosts/blueGhostUp.png");
     image(blueGhostImage, (blueGhost.ghostX*boxSize)+(boxSize/8), (blueGhost.ghostY*boxSize)+(boxSize/8));
-    
+
     blueGhostImage = loadImage("images/ghosts/pinkGhostUp.png");
     image(pinkGhostImage, (pinkGhost.ghostX*boxSize)+(boxSize/8), (pinkGhost.ghostY*boxSize)+(boxSize/8));
-    
+
     orangeGhostImage = loadImage("images/ghosts/orangeGhostUp.png");
     image(orangeGhostImage, (orangeGhost.ghostX*boxSize)+(boxSize/8), (orangeGhost.ghostY*boxSize)+(boxSize/8));
   }
-  
-  void moveGhosts(){
-    if (status == gameStatus.PLAYINGGAME){
-      
+
+  //moving the ghosts
+  void moveGhosts() {
+    if (status == gameStatus.PLAYINGGAME) {
+
       //redGhost movement
-      if(redGhostDirection.equals("down")){
+      if (redGhostDirection.equals("down")) {
         redGhost.ghostY++;
-      }
-      else{
+      } 
+      else {
         redGhost.ghostY--;
       }
-      
+
       if (gameGrid[redGhost.ghostY+1][redGhost.ghostX] == gameGrid[19][5]) {
         redGhostDirection = "up";
       }
       if (gameGrid[redGhost.ghostY-1][redGhost.ghostX] == gameGrid[1][5]) {
         redGhostDirection = "down";
       }
-      
-      
-      
+
+
       //blueGhost movement
-      if(blueGhostDirection.equals("up")){
+      if (blueGhostDirection.equals("up")) {
         blueGhost.ghostY--;
-      }
-      else{
+      } 
+      else {
         blueGhost.ghostY++;
       }
-      
+
       if (gameGrid[blueGhost.ghostY-1][blueGhost.ghostX] == gameGrid[1][17]) {
         blueGhostDirection = "down";
       }
       if (gameGrid[blueGhost.ghostY+1][blueGhost.ghostX] == gameGrid[19][17]) {
         blueGhostDirection = "up";
       }
-      
-      
-      
+
+
       //pinkGhost movement
-      if(pinkGhostDirection.equals("right")){
+      if (pinkGhostDirection.equals("right")) {
         pinkGhost.ghostX++;
-      }
-      else{
+      } 
+      else {
         pinkGhost.ghostX--;
       }
-      
+
       if (gameGrid[pinkGhost.ghostY][pinkGhost.ghostX+1] == gameGrid[20][21]) {
         pinkGhostDirection = "left";
       }
       if (gameGrid[pinkGhost.ghostY][pinkGhost.ghostX-1] == gameGrid[20][1]) {
         pinkGhostDirection = "right";
       }
-      
-      
-      
+
+
       //orangeGhost movement
-      if(orangeGhostDirection.equals("left")){
+      if (orangeGhostDirection.equals("left")) {
         orangeGhost.ghostX--;
-      }
-      else{
+      } 
+      else {
         orangeGhost.ghostX++;
       }
-      
+
       if (gameGrid[orangeGhost.ghostY][orangeGhost.ghostX-1] == gameGrid[4][1]) {
         orangeGhostDirection = "right";
       }
       if (gameGrid[orangeGhost.ghostY][orangeGhost.ghostX+1] == gameGrid[4][21]) {
         orangeGhostDirection = "left";
       }
-
-
     }
   }
-  
-  void killPacman(){
-    if((redGhost.ghostY == pacman.pacmanY && redGhost.ghostX == pacman.pacmanX) || (blueGhost.ghostY == pacman.pacmanY && blueGhost.ghostX == pacman.pacmanX) || (pinkGhost.ghostY == pacman.pacmanY && pinkGhost.ghostX == pacman.pacmanX) || (orangeGhost.ghostY == pacman.pacmanY && orangeGhost.ghostX == pacman.pacmanX)){
-      println("GAMEOVER");
+
+  //conditions needing to be met for pacman to die
+  void killPacman() {
+    if ((redGhost.ghostY == pacman.pacmanY && redGhost.ghostX == pacman.pacmanX) || (blueGhost.ghostY == pacman.pacmanY && blueGhost.ghostX == pacman.pacmanX) || (pinkGhost.ghostY == pacman.pacmanY && pinkGhost.ghostX == pacman.pacmanX) || (orangeGhost.ghostY == pacman.pacmanY && orangeGhost.ghostX == pacman.pacmanX)) {
       status = gameStatus.GAMEOVER;
     }
   }
