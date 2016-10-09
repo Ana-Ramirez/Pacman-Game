@@ -23,12 +23,7 @@ int [][] originalGameGrid={
   {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1}, 
   {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-
 };
-
-
-
-
 
 
 
@@ -60,9 +55,19 @@ int [][] gameGrid={
 };
 
 
+///////////////making the duplication of gameGrid less fugly
 
 
-//make the duplication of gameGrid less fugly
+
+//int [][] originalGameGrid = new int [23][23];
+
+//for (int row = 0; row<gameGrid.length; row++) {
+//  for (int col = 0; col<gameGrid[row].length; col++) {
+//    originalGameGrid[row][col] = gameGrid[row][col];
+//  }
+//}
+
+///////////////making the duplication of gameGrid less fugly
 
 
 
@@ -77,7 +82,12 @@ PFont pacmanFont;
 PFont normalFont;
 color menuButtonColour1 = color(255);
 color menuButtonColour2 = color(255);
-gameStatus status = gameStatus.PLAYINGGAME;
+PImage pacmanImage;
+PImage redGhostImage;
+PImage blueGhostImage;
+PImage pinkGhostImage;
+PImage orangeGhostImage;
+gameStatus status = gameStatus.STARTMENU;
 enum gameStatus {
   STARTMENU, PLAYINGGAME, GAMEWON, GAMEOVER
 }
@@ -100,7 +110,12 @@ void setup() {
   blueGhost = new Ghosts(18, 17);
   pinkGhost = new Ghosts(20, 2);
   orangeGhost = new Ghosts(4, 20);
-  
+  pacmanImage = loadImage("\\data\\images\\pacman\\pacmanOpenRight.png");
+  redGhostImage = loadImage("\\data\\images\\ghosts\\redGhostRight.png");
+  blueGhostImage = loadImage("\\data\\images\\ghosts\\blueGhostRight.png");
+  pinkGhostImage = loadImage("\\data\\images\\ghosts\\pinkGhostRight.png");
+  orangeGhostImage = loadImage("\\data\\images\\ghosts\\orangeGhostRight.png");
+
   pacmanFont = createFont("font/CRACKMAN.TTF", 36);
   normalFont = createFont("font/8bit.ttf", 36);
   textFont(pacmanFont);
@@ -122,6 +137,8 @@ void draw() {
 
   case STARTMENU:
     println("STARTMENU");
+    drawEndGameMenu();
+    reInitialise();
     break;
 
   case PLAYINGGAME:
@@ -138,12 +155,12 @@ void draw() {
     break;
 
   case GAMEWON:
-    drawWonGameMenu();
+    drawEndGameMenu();
     reInitialise();
     break;
 
   case GAMEOVER:
-    drawGameOverMenu();
+    drawEndGameMenu();
     reInitialise();
     break;
   }
@@ -189,22 +206,49 @@ void drawPoints() {
 }
 
 
-void drawWonGameMenu() {
+void drawEndGameMenu() {
   background(0);
   textFont(pacmanFont);
   textSize(80);
   textAlign(CENTER);
   fill(255, 255, 0);
-  text("You Won!", width/2, height/2.2);
+  if (status == gameStatus.STARTMENU) {
+    text("PACMAN!", width/2, height/2.2);
+    pacmanImage = loadImage("data/images/pacman/pacmanOpenRight.png");
+    image(pacmanImage, width/4, height/2+7, 50, 50);
+
+    redGhostImage = loadImage("data/images/ghosts/redGhostRight.png");
+    image(redGhostImage, width/4+75, height/2+7, 50, 50);
+
+    blueGhostImage = loadImage("data/images/ghosts/blueGhostRight.png");
+    image(blueGhostImage, width/4+135, height/2+7, 50, 50);
+
+    pinkGhostImage = loadImage("data/images/ghosts/pinkGhostRight.png");
+    image(pinkGhostImage, width/4+195, height/2+7, 50, 50);
+
+    orangeGhostImage = loadImage("data/images/ghosts/orangeGhostRight.png");
+    image(orangeGhostImage, width/4+255, height/2+7, 50, 50);
+  }
+  if (status == gameStatus.GAMEWON) {
+    text("You Won!", width/2, height/2.2);
+  }
+  if (status == gameStatus.GAMEOVER) {
+    text("Game over!", width/2, height/2.2);
+  }
   textFont(normalFont);
   textSize(40);
   textAlign(CENTER);
-  fill(255);    
-  text("Score: " + (winningScore*10), (width/2), (height/2)+width/12);
+  fill(255);
+  if (status == gameStatus.GAMEWON) {
+    text("Score: " + (winningScore*10), (width/2), (height/2)+width/12);
+  }
+  if (status == gameStatus.GAMEOVER) {
+    text("Score: " + finalScore, (width/2), (height/2)+width/12);
+  }
   containsMouse();
 }
 
-void drawWonGameButtons() {
+void drawEndGameButtons() {
   frameRate(60);
   fill(menuButtonColour1);
   rect(width/3, (height/2)+(height/7), 90, 40);
@@ -213,34 +257,11 @@ void drawWonGameButtons() {
   fill(0);
   textSize(25);
   textAlign(LEFT);
-  text("Replay", (width/3)+4, (height/2)+(height/7)+28);
-  text("Quit", (width/3)+(width/5.5)+17, (height/2)+(height/7)+28);
-}
-
-void drawGameOverMenu(){
-  background(0);
-  textFont(pacmanFont);
-  textSize(80);
-  textAlign(CENTER);
-  fill(255, 255, 0);
-  text("Game over!", width/2, height/2.2);
-  textFont(normalFont);
-  textSize(40);
-  textAlign(CENTER);
-  fill(255);    
-  text("Score: " + finalScore, (width/2), (height/2)+width/12);
-  containsMouse();
-}
-
-void drawGameOverButtons() {
-  frameRate(60);
-  fill(menuButtonColour1);
-  rect(width/3, (height/2)+(height/7), 90, 40);
-  fill(menuButtonColour2);
-  rect((width/3)+(width/5.5), (height/2)+(height/7), 90, 40);
-  fill(0);
-  textSize(25);
-  textAlign(LEFT);
-  text("Replay", (width/3)+4, (height/2)+(height/7)+28);
-  text("Quit", (width/3)+(width/5.5)+17, (height/2)+(height/7)+28);
+  if (status == gameStatus.STARTMENU) {
+    text("Play", (width/3)+17, (height/2)+(height/7)+28);
+    text("Quit", (width/3)+(width/5.5)+17, (height/2)+(height/7)+28);
+  } else {
+    text("Replay", (width/3)+4, (height/2)+(height/7)+28);
+    text("Quit", (width/3)+(width/5.5)+17, (height/2)+(height/7)+28);
+  }
 }
