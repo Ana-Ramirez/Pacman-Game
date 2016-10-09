@@ -71,36 +71,43 @@ int [][] gameGrid={
 
 
 
-
+//objects
 Pacman pacman;
 Ghosts redGhost;
 Ghosts blueGhost;
 Ghosts pinkGhost;
 Ghosts orangeGhost;
 
+//fonts
 PFont pacmanFont;
 PFont normalFont;
+
+//menu buttons
 color menuButtonColour1 = color(255);
 color menuButtonColour2 = color(255);
+
+//images for STARTMENU screen
 PImage pacmanImage;
 PImage redGhostImage;
 PImage blueGhostImage;
 PImage pinkGhostImage;
 PImage orangeGhostImage;
+
+//enums
 gameStatus status = gameStatus.STARTMENU;
 enum gameStatus {
   STARTMENU, PLAYINGGAME, GAMEWON, GAMEOVER
 }
 
-// My grid is 23 x 23.
+//grid is 23 x 23.
 int rows = gameGrid.length;
 int cols = gameGrid[0].length;
-
 public int boxSize;
-int winningScore = 0;
-int totalFood = 0;
-int score = 0;
-int finalScore = 0;
+
+//variables for the score
+int score = 0; 
+int totalFood = 0; //total amount of food
+int finalScore = 0; 
 
 void setup() {
   frameRate(10);
@@ -110,6 +117,8 @@ void setup() {
   blueGhost = new Ghosts(18, 17);
   pinkGhost = new Ghosts(20, 2);
   orangeGhost = new Ghosts(4, 20);
+  
+  //loading STARTMENU images
   pacmanImage = loadImage("\\data\\images\\pacman\\pacmanOpenRight.png");
   redGhostImage = loadImage("\\data\\images\\ghosts\\redGhostRight.png");
   blueGhostImage = loadImage("\\data\\images\\ghosts\\blueGhostRight.png");
@@ -120,11 +129,12 @@ void setup() {
   normalFont = createFont("font/8bit.ttf", 36);
   textFont(pacmanFont);
   size(600, 650);
+  
+  //calculating the total amount of food available
   for (int i=0; i<rows; i++) {
     for (int j=0; j<cols; j++) {
       if (gameGrid[i][j] == 2) {
         totalFood++;
-        winningScore++;
       }
     }
   }
@@ -132,12 +142,10 @@ void setup() {
 
 
 void draw() {
-
   switch(status) {
 
   case STARTMENU:
-    println("STARTMENU");
-    drawEndGameMenu();
+    drawMenu();
     reInitialise();
     break;
 
@@ -148,6 +156,7 @@ void draw() {
     background(0);
     this.drawGrid();
     pacman.display();
+    pacman.calculateScore();
     redGhost.displayGhosts();
     redGhost.moveGhosts();
     redGhost.killPacman();
@@ -155,17 +164,19 @@ void draw() {
     break;
 
   case GAMEWON:
-    drawEndGameMenu();
+    drawMenu();
     reInitialise();
     break;
 
   case GAMEOVER:
-    drawEndGameMenu();
+    drawMenu();
     reInitialise();
     break;
   }
 }
 
+
+//resetting the game each time
 void reInitialise() {
   for (int row = 0; row<gameGrid.length; row++) {
     for (int col = 0; col<gameGrid[row].length; col++) {
@@ -178,6 +189,8 @@ void reInitialise() {
   pacman.facingDirection = "left";
 }
 
+
+//drawing the maze
 void drawGrid() {
   for (int row = 0; row<rows; row++) {
     for (int col = 0; col<cols; col++) {
@@ -198,6 +211,7 @@ void drawGrid() {
   }
 }
 
+//drawing all the food
 void drawPoints() {
   fill(255);
   text("Score: ", boxSize, height*0.96);
@@ -205,8 +219,8 @@ void drawPoints() {
   text(score, (boxSize*7)+(boxSize*0.5), height*0.96);
 }
 
-
-void drawEndGameMenu() {
+//drawing the menus
+void drawMenu() {
   background(0);
   textFont(pacmanFont);
   textSize(80);
@@ -229,26 +243,32 @@ void drawEndGameMenu() {
     orangeGhostImage = loadImage("data/images/ghosts/orangeGhostRight.png");
     image(orangeGhostImage, width/4+255, height/2+7, 50, 50);
   }
+  
   if (status == gameStatus.GAMEWON) {
     text("You Won!", width/2, height/2.2);
   }
+  
   if (status == gameStatus.GAMEOVER) {
     text("Game over!", width/2, height/2.2);
   }
+  
   textFont(normalFont);
   textSize(40);
   textAlign(CENTER);
   fill(255);
+  
   if (status == gameStatus.GAMEWON) {
-    text("Score: " + (winningScore*10), (width/2), (height/2)+width/12);
+    text("Score: " + (totalFood*10), (width/2), (height/2)+width/12);
   }
+  
   if (status == gameStatus.GAMEOVER) {
     text("Score: " + finalScore, (width/2), (height/2)+width/12);
   }
   containsMouse();
 }
 
-void drawEndGameButtons() {
+//drawing the buttons in the menus
+void drawMenuButtons() {
   frameRate(60);
   fill(menuButtonColour1);
   rect(width/3, (height/2)+(height/7), 90, 40);
@@ -257,10 +277,13 @@ void drawEndGameButtons() {
   fill(0);
   textSize(25);
   textAlign(LEFT);
+  
   if (status == gameStatus.STARTMENU) {
     text("Play", (width/3)+17, (height/2)+(height/7)+28);
     text("Quit", (width/3)+(width/5.5)+17, (height/2)+(height/7)+28);
-  } else {
+  } 
+  
+  else {
     text("Replay", (width/3)+4, (height/2)+(height/7)+28);
     text("Quit", (width/3)+(width/5.5)+17, (height/2)+(height/7)+28);
   }
