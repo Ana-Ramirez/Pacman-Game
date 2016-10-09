@@ -1,4 +1,4 @@
-
+//setting the direction pacman is facing and moving depending on th key pressed
 void keyPressed() {
   if (keyCode == UP) {
     pacman.movingUp = true;
@@ -21,6 +21,7 @@ void keyPressed() {
   }
 }
 
+//when key is released, each moving boolean is set to false, but the direction that pacman is facing remains the same
 void keyReleased() {
   if (keyCode == UP) {
     pacman.movingUp = false;
@@ -39,20 +40,19 @@ void keyReleased() {
   }
 }
 
-
+//events for when the menu buttons are pressed
 void mousePressed() {
   if (status == gameStatus.STARTMENU || status == gameStatus.GAMEWON || status == gameStatus.GAMEOVER) {
     if (mouseX >= width/3 && mouseX < (width/3)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40) {
-      print("replay");
       status = gameStatus.PLAYINGGAME;
     }
     if (mouseX >= (width/3)+(width/5.5) && mouseX < (width/3)+(width/5.5)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40) {
-      print("quit");
       exit();
     }
   }
 }
 
+//menu buttons change colour when the mouse hovers over them
 void containsMouse() {
   if (status == gameStatus.STARTMENU || status == gameStatus.GAMEWON || status == gameStatus.GAMEOVER) {
     if (mouseX >= width/3 && mouseX < (width/3)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40) {
@@ -63,6 +63,6 @@ void containsMouse() {
       menuButtonColour1 = color(255);
       menuButtonColour2 = color(255);
     }
-    drawEndGameButtons();
+    drawMenuButtons();
   }
 }
