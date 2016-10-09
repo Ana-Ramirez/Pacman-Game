@@ -19,8 +19,6 @@ void keyPressed() {
     pacman.movingDown = true;
     pacman.facingDirection = "down";
   }
-  
-  
 }
 
 void keyReleased() {
@@ -42,38 +40,29 @@ void keyReleased() {
 }
 
 
-void mousePressed(){
-  if(status == gameStatus.GAMEWON || status == gameStatus.GAMEOVER){
-    if(mouseX >= width/3 && mouseX < (width/3)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40){
+void mousePressed() {
+  if (status == gameStatus.STARTMENU || status == gameStatus.GAMEWON || status == gameStatus.GAMEOVER) {
+    if (mouseX >= width/3 && mouseX < (width/3)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40) {
       print("replay");
       status = gameStatus.PLAYINGGAME;
     }
-    if(mouseX >= (width/3)+(width/5.5) && mouseX < (width/3)+(width/5.5)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40){
+    if (mouseX >= (width/3)+(width/5.5) && mouseX < (width/3)+(width/5.5)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40) {
       print("quit");
       exit();
     }
   }
 }
 
-void containsMouse(){
-  if(status == gameStatus.GAMEWON || status == gameStatus.GAMEOVER){
-    if(mouseX >= width/3 && mouseX < (width/3)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40){
+void containsMouse() {
+  if (status == gameStatus.STARTMENU || status == gameStatus.GAMEWON || status == gameStatus.GAMEOVER) {
+    if (mouseX >= width/3 && mouseX < (width/3)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40) {
       menuButtonColour1 = color(150);
-    }
-    else if(mouseX >= (width/3)+(width/5.5) && mouseX < (width/3)+(width/5.5)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40){
+    } else if (mouseX >= (width/3)+(width/5.5) && mouseX < (width/3)+(width/5.5)+90 && mouseY >= (height/2)+(height/7) && mouseY < (height/2)+(height/7)+40) {
       menuButtonColour2 = color(150);
-    }
-    else{
+    } else {
       menuButtonColour1 = color(255);
       menuButtonColour2 = color(255);
     }
-    if(status == gameStatus.GAMEWON){
-    drawWonGameButtons();
-    }
-    if(status == gameStatus.GAMEOVER){
-      drawGameOverButtons();
-    }
-      
+    drawEndGameButtons();
   }
-    
 }
